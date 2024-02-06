@@ -1,14 +1,10 @@
 # Gaia
-Social media manager.
+Source code for gAIa, the AI social media manager.
 
-[Calendar](https://calendar.google.com/calendar/u/0?cid=ODVmMWU0MTUxNmM4ZDE1ZmZhOTBkNjI5ZTVkYWU2MTVlMGU5OTVjNWMwNTlkZmMwMDMzZTYzMTc5NThjYzJlOUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t)
-
-## Presentation
-- [Idea](https://www.canva.com/design/DAF0yV79knY/jplRfIxngOl16eQt12YBFQ/edit)
-- [Mockup](https://www.canva.com/design/DAF1l5iPYls/W4Ao73gEuwBcuFF4NPSJRw/edit)
-
-**tips**
-- [How To Pitch Your Idea to Investors](https://www.indeed.com/career-advice/career-development/pitching-business-ideas)
-
-## MVP
-See "Projects" for deadlines, milestones and user stories.
+## Project setup
+- Install Poetry for dependency management: [Installation guide](https://python-poetry.org/docs/#installing-with-pipx) (use pipx!)
+- Install dependencies: `poetry install`
+- Setup the local environment variable: `cp .env.template .env` and fill in the values
+- Create a local Postgres database: `createdb gaia`
+- Run the migrations: `poetry run python manage.py migrate`
+- Run the server: `poetry run python manage.py runserver`
