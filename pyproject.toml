@@ -16,6 +16,7 @@ python-dotenv = "^1.0.1"
 django = "^5.0.1"
 psycopg = "^3.1.18"
 djangorestframework = "^3.14.0"
+django-vite = "^3.0.3"
 
 
 [tool.poetry.group.dev.dependencies]

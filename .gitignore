@@ -1,3 +1,7 @@
+# Vite output files
+static/vite
+staticfiles/
+
 # Django #
 *.log
 *.pot
