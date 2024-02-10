@@ -15,11 +15,12 @@ Including another URLconf
 """
 
 from django.contrib import admin
-from django.urls import path, re_path
+from django.urls import path, re_path, include
 from GaiaCore.views import index
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("auth/", include("GaiaAuth.urls")),
     # render index if nothing matches
     re_path(r"^.*$", index),
 ]
