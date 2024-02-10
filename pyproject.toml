@@ -6,7 +6,7 @@ target-version = ['py310']
 name = "gaia"
 version = "0.1.0"
 description = ""
-authors = ["Your Name <you@example.com>"]
+authors = ["Michele Dalle Rive <dallem@usi.ch>", "Jeferson Morales Mariciano <jeferson.morales.mariciano@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
