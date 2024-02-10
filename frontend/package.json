@@ -1,0 +1,30 @@
+{
+  "name": "frontend",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint --ext .js,.vue --ignore-path .gitignore --fix src",
+    "format": "prettier .  --write"
+  },
+  "dependencies": {
+    "vite-plugin-vuetify": "^2.0.1",
+    "vue": "^3.3.11",
+    "vue-router": "^4.2.5",
+    "vuetify": "^3.5.2",
+    "vuex": "^4.0.2"
+  },
+  "devDependencies": {
+    "@mdi/font": "^7.4.47",
+    "@vitejs/plugin-vue": "^4.5.2",
+    "eslint": "^8.56.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-vue": "^9.21.1",
+    "prettier": "3.2.5",
+    "vite": "^5.0.8",
+    "vite-plugin-eslint": "^1.8.1"
+  }
+}
