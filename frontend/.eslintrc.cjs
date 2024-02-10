@@ -12,5 +12,16 @@ module.exports = {
         order: ["template", "script", "style"],
       },
     ],
+    "vue/html-closing-bracket-newline": [
+      "warn",
+      {
+        "singleline": "never",
+        "multiline": "never",
+        "selfClosingTag": {
+          "singleline": "never",
+          "multiline": "never",
+        },
+      },
+    ],
   },
 };
