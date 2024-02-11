@@ -1,5 +1,8 @@
-from django.db import models
+import secrets
+
+from django.conf import settings
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.db import models
 from django.utils import timezone
 
 
@@ -64,3 +67,18 @@ class User(AbstractBaseUser):
 
     def get_short_name(self):
         return self.first_name
+
+
+class PendingActivation(models.Model):
+    def generate_token(*args):
+        return secrets.token_urlsafe(32)
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE, primary_key=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    token = models.CharField(max_length=255, unique=True, default=generate_token)
+
+    def __str__(self):
+        return f"{self.user.email} - {self.token}"
+
+    def is_expired(self):
+        return (timezone.now() - self.created_at).days > settings.CONFIRMATION_EMAIL_EXPIRY_DAYS
