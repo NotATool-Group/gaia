@@ -1,3 +1,5 @@
+import store from "@/store/index.js";
+
 export default [
   {
     path: "/",
@@ -13,6 +15,18 @@ export default [
     path: "/register",
     name: "register",
     component: () => import("@/views/RegisterView.vue"),
+  },
+  {
+    path: "/activate/success",
+    name: "activate-success",
+    redirect: () => {
+      store.commit("snackbar/show", {
+        message: "Your account has been activated successfully",
+        color: "success",
+        icon: "mdi-check-circle",
+      });
+      return { name: "login" };
+    },
   },
   {
     path: "/profile",
