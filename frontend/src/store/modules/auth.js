@@ -42,5 +42,10 @@ export default {
         context.commit("setMe", null);
       });
     },
+    register(context, payload) {
+      return this.$axios.post("/auth/register/", payload).then((response) => {
+        context.commit("setMe", response.data);
+      });
+    },
   },
 };
