@@ -9,6 +9,9 @@ export default {
     me(state) {
       return state.me;
     },
+    isAuthenticated(state) {
+      return !!state.me;
+    },
   },
   mutations: {
     setMe(state, payload) {
@@ -22,6 +25,9 @@ export default {
       });
     },
     checkAuth(context) {
+      if (context.getters.isAuthenticated) {
+        return Promise.resolve();
+      }
       return this.$axios.get("/auth/me/").then((response) => {
         context.commit("setMe", response.data);
       });
