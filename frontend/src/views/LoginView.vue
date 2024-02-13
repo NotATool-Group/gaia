@@ -23,6 +23,10 @@
         required
         type="password"
         @input="formErrors = []"></v-text-field>
+      <div class="d-flex align-center justify-end" style="gap: 8px">
+        <span> Forgot your password? </span>
+        <router-link to="/password-reset"> Click here </router-link>
+      </div>
       <v-btn
         id="login"
         :disabled="!valid || loading"
