@@ -11,8 +11,9 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from .models import User
 from .serializers import UserSerializer
-from .service import verify_activation_token
+from .service import use_activation_token, use_password_reset_token, send_password_reset_email
 
 
 class RegisterView(APIView):
@@ -58,6 +59,30 @@ class MeView(APIView):
 class ActivateView(APIView):
     @transaction.atomic
     def get(self, request, token):
-        if verify_activation_token(token):
+        if use_activation_token(token):
             return HttpResponseRedirect(f"{settings.BASE_URL}/activate/success/")
+        return Response({"detail": "Invalid token"}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class AskPasswordResetView(APIView):
+    def post(self, request):
+        try:
+            data = request.data
+            print(data.get("email"))
+            user = User.objects.get(email=data.get("email"))
+            print(user)
+            send_password_reset_email(user)
+        except User.DoesNotExist:
+            # fail silently to prevent email enumeration
+            pass
+        return Response({"detail": "Password reset email sent"}, status=status.HTTP_200_OK)
+
+
+class PasswordResetView(APIView):
+    def post(self, request, token):
+        data = request.data
+        password = data.get("password")
+        print(token, password)
+        if use_password_reset_token(token, password):
+            return Response({"detail": "Password reset successfully"}, status=status.HTTP_200_OK)
         return Response({"detail": "Invalid token"}, status=status.HTTP_400_BAD_REQUEST)
