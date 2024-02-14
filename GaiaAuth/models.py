@@ -85,6 +85,7 @@ class PendingActivation(models.Model):
 
 
 class PasswordReset(models.Model):
+
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     token = models.CharField(max_length=255, unique=True, default=PendingActivation.generate_token)
