@@ -14,6 +14,8 @@ def send_activation_email(user: User):
     @param user: The user to send the activation email to
     @return: None
     """
+    if user.is_active or not settings.CONFIRMATION_EMAIL_ENABLED:
+        return
     activation = PendingActivation.objects.create(user=user)
     token = activation.token
     path = reverse("activate", kwargs={"token": token})
@@ -57,6 +59,7 @@ def send_password_reset_email(user: User):
     @param user: The user to send the password reset email to
     @return: None
     """
+    user.set_unusable_password()  # invalidate the current password
     reset = PasswordReset.objects.create(user=user)
     token = reset.token
     url = f"{settings.BASE_URL}/password-reset/{token}"
@@ -76,15 +79,20 @@ def use_password_reset_token(token: str, new_password: str) -> bool:
     Verify the given token and if valid, activate the account of the corresponding user.
 
     @param token: The token to verify
+    @throw: ValueError if the password used is invalid
     @return: True if the token is valid and the user is activated, False otherwise
     """
+    from .serializers import UserSerializer
+
     try:
         reset = PasswordReset.objects.get(token=token)
         if reset.is_expired():
             return False
         user = reset.user
-        user.set_password(new_password)
-        user.save()
+
+        serializer = UserSerializer(instance=user, data={"password": new_password}, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
         reset.delete()
         return True
     except PasswordReset.DoesNotExist:
