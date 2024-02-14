@@ -5,28 +5,37 @@
     <h1 class="text-h2 text-center">Password reset</h1>
     <v-form
       v-model="valid"
-      validate-on="input"
       class="d-flex flex-column justify-center align-content-center mt-6"
       style="gap: 16px"
+      validate-on="input"
       @submit.prevent="resetPassword">
       <v-text-field
         v-model="password1"
+        :error-messages="errors.password"
         :rules="password1Rules"
-        label="New password"
-        type="password"
         hide-details="auto"
-        required></v-text-field>
+        label="New password"
+        required
+        type="password"
+        @input="errors.password = []"></v-text-field>
       <v-text-field
         v-model="password2"
-        :rules="password2Rules"
-        label="Confirm new password"
-        type="password"
         :error-messages="password2Errors"
+        :rules="password2Rules"
         hide-details="auto"
-        required></v-text-field>
-      <v-btn type="submit" :disabled="!valid" color="primary">
+        label="Confirm new password"
+        required
+        type="password"></v-text-field>
+      <v-btn
+        :loading="loading"
+        :disabled="!valid"
+        color="primary"
+        type="submit">
         Reset password
       </v-btn>
+      <span v-if="errors.non_field_errors" class="text-red">
+        {{ errors.non_field_errors[0] }}
+      </span>
     </v-form>
   </v-container>
 </template>
@@ -40,6 +49,7 @@ export default {
     password1: "",
     password2: "",
     password2Errors: [],
+    errors: {},
     valid: false,
     loading: false,
   }),
@@ -73,6 +83,9 @@ export default {
             color: "success",
           });
           this.$router.push("/login");
+        })
+        .catch((e) => {
+          this.errors = e.response.data;
         })
         .finally(() => {
           this.loading = false;
