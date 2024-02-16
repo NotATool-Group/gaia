@@ -1,8 +1,11 @@
+import { loadingPromise } from "@/store/utils";
+
 export default {
   namespaced: true,
   state() {
     return {
       me: null,
+      loading: false,
     };
   },
   getters: {
@@ -12,10 +15,16 @@ export default {
     isAuthenticated(state) {
       return !!state.me;
     },
+    isLoading(state) {
+      return state.loading;
+    },
   },
   mutations: {
     setMe(state, payload) {
       state.me = payload;
+    },
+    setLoading(state, payload) {
+      state.loading = payload;
     },
   },
   actions: {
@@ -23,36 +32,45 @@ export default {
       if (context.getters.isAuthenticated) {
         return Promise.resolve();
       }
-      return this.$axios
-        .get("/auth/me/")
-        .then((response) => {
-          context.commit("setMe", response.data);
-        })
-        .catch(() => {
-          context.commit("setMe", null);
-        });
+      return loadingPromise(context, () =>
+        this.$axios
+          .get("/auth/me/")
+          .then((response) => {
+            context.commit("setMe", response.data);
+          })
+          .catch(() => {
+            context.commit("setMe", null);
+          }),
+      );
     },
     login(context, payload) {
-      return this.$axios.post("/auth/login/", payload).then((response) => {
-        context.commit("setMe", response.data);
-      });
+      return loadingPromise(context, () =>
+        this.$axios.post("/auth/login/", payload).then((response) => {
+          context.commit("setMe", response.data);
+        }),
+      );
     },
     askPasswordReset(context, payload) {
-      return this.$axios.post("/auth/password-reset/", payload);
+      return loadingPromise(context, () =>
+        this.$axios.post("/auth/password-reset/", payload),
+      );
     },
     resetPassword(context, payload) {
-      return this.$axios.post(
-        `/auth/password-reset/${payload.token}/`,
-        payload,
+      return loadingPromise(context, () =>
+        this.$axios.post(`/auth/password-reset/${payload.token}/`, payload),
       );
     },
     logout(context) {
-      return this.$axios.post("/auth/logout/").then(() => {
-        context.commit("setMe", null);
-      });
+      return loadingPromise(context, () =>
+        this.$axios.post("/auth/logout/").then(() => {
+          context.commit("setMe", null);
+        }),
+      );
     },
     register(context, payload) {
-      return this.$axios.post("/auth/register/", payload);
+      return loadingPromise(context, () =>
+        this.$axios.post("/auth/register/", payload),
+      );
     },
   },
 };

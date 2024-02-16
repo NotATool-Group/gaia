@@ -11,8 +11,21 @@
       <v-btn variant="text" @click="$router.push('/login')">Login</v-btn>
     </template>
     <template v-else>
-      <v-btn variant="text" @click="$router.push('/profile')">Profile</v-btn>
-      <LogoutButton />
+      <v-btn variant="text" @click="$router.push('/profile')">
+        <v-skeleton-loader
+          :loading="$store.getters['auth/isLoading']"
+          color="transparent"
+          width="200"
+          type="text">
+          <template #default>
+            <span>
+              {{ $store.getters["auth/me"].first_name }}
+              {{ $store.getters["auth/me"].last_name }}
+            </span>
+          </template>
+        </v-skeleton-loader>
+      </v-btn>
+      <LogoutButton icon />
     </template>
   </v-app-bar>
 </template>

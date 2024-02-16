@@ -1,3 +1,4 @@
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
@@ -21,13 +22,16 @@ class SwitchCompanyView(APIView):
 
 
 class CompanyViewSet(ModelViewSet):
-    queryset = Company.objects.all()
     serializer_class = CompanySerializer
     http_method_names = ["get", "post"]
     ordering_fields = ["created_at", "updated_at"]
     ordering = ["-created_at"]
+    permission_classes = [IsAuthenticated]
     lookup_field = "id"
     lookup_url_kwarg = "id"
+
+    def get_queryset(self):
+        return self.request.user.companies.all()
 
     def active(self, request):
         company = request.active_company
