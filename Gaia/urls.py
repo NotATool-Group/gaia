@@ -16,12 +16,17 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path, re_path, include
+
 from GaiaCore.views import index
+
+api_urls = [
+    path("auth/", include("GaiaAuth.urls")),
+    path("company/", include("GaiaCompany.urls")),
+]
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("auth/", include("GaiaAuth.urls")),
-    path("company/", include("GaiaCompany.urls")),
+    path("api/", include(api_urls)),
     # render index if nothing matches
     re_path(r"^.*$", index, name="index"),
 ]
