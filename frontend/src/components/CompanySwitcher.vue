@@ -1,5 +1,17 @@
 <template>
   <span v-if="loadingData"> Loading </span>
+  <div v-else-if="companies.length === 0">
+    <v-btn
+      :loading="loading"
+      :disabled="loading"
+      @click="()=>{}"
+      variant="text">
+      <template #prepend>
+        <v-icon size="24" color="success">mdi-plus</v-icon>
+      </template>
+      <span style="margin-top:1px;">Create your first company</span>
+    </v-btn>
+  </div>
   <div v-else>
     <v-btn :loading="loading" :disabled="loading" variant="text">
       {{ activeCompany?.name }}

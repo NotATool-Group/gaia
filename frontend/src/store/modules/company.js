@@ -34,20 +34,24 @@ export default {
     fetchCompanies(context) {
       return this.$axios.get("/company/").then((response) => {
         context.commit("setCompanies", response.data);
-        console.log(response.data);
       });
     },
     fetchActiveCompany(context) {
-      return this.$axios.get(`/company/active/`).then((response) => {
-        context.commit("setActiveCompany", response.data);
-      });
+      return this.$axios
+        .get(`/company/active/`)
+        .then((response) => {
+          context.commit("setActiveCompany", response.data);
+        })
+        .catch(() => {
+          context.commit("setActiveCompany", null);
+        });
     },
     fetchAll(context) {
       if (context.state.initialized) return Promise.resolve();
       return Promise.all([
         context.dispatch("fetchCompanies"),
         context.dispatch("fetchActiveCompany"),
-      ]).then(() => {
+      ]).finally(() => {
         context.state.initialized = true;
       });
     },
