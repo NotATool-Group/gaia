@@ -21,6 +21,7 @@ from GaiaCore.views import index
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("auth/", include("GaiaAuth.urls")),
+    path("company/", include("GaiaCompany.urls")),
     # render index if nothing matches
     re_path(r"^.*$", index, name="index"),
 ]

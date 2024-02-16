@@ -50,6 +50,8 @@ class User(AbstractBaseUser):
         help_text="Designates whether this user has completed the email verification process to allow login.",
     )
 
+    companies = models.ManyToManyField("GaiaCompany.Company", related_name="users", blank=True)
+
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["first_name", "last_name"]
 
