@@ -28,3 +28,9 @@ class CompanyViewSet(ModelViewSet):
     ordering = ["-created_at"]
     lookup_field = "id"
     lookup_url_kwarg = "id"
+
+    def active(self, request):
+        company = request.active_company
+        if not company:
+            return Response({"non_field_errors": ["No active company"]}, status=404)
+        return Response(CompanySerializer(company).data)

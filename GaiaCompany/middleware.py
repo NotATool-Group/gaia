@@ -19,11 +19,13 @@ class ActiveCompanyMiddleware:
         company_id = request.session.get("active_company", None)
         if company_id:
             try:
-                company = Company.objects.get(id=company_id)
-                request.active_company = company
+                request.active_company = Company.objects.get(id=company_id)
             except Company.DoesNotExist:
                 request.active_company = None
         else:
-            request.active_company = Company.objects.first()
+            if request.user.is_authenticated:
+                request.active_company = request.user.companies.first()
+            else:
+                request.active_company = None
 
         return self.get_response(request)
