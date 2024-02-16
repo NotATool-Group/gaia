@@ -1,19 +1,18 @@
-import { loadingPromise } from "@/store/utils";
-
 export default {
   namespaced: true,
   state() {
     return {
       companies: [],
       active_company: null,
-      loading: false,
+      loading: true,
+      initialized: false,
     };
   },
   getters: {
-    companies(state) {
+    list(state) {
       return state.companies;
     },
-    activeCompany(state) {
+    active(state) {
       return state.active_company;
     },
     isLoading(state) {
@@ -33,27 +32,31 @@ export default {
   },
   actions: {
     fetchCompanies(context) {
-      return loadingPromise(context, () => {
-        return this.$axios.get("/companies/").then((response) => {
-          context.commit("setCompanies", response.data);
-        });
+      return this.$axios.get("/company/").then((response) => {
+        context.commit("setCompanies", response.data);
+        console.log(response.data);
       });
     },
     fetchActiveCompany(context) {
-      return loadingPromise(context, () => {
-        return this.$axios.get(`/companies/active/`).then((response) => {
-          context.commit("setActiveCompany", response.data);
-        });
+      return this.$axios.get(`/company/active/`).then((response) => {
+        context.commit("setActiveCompany", response.data);
       });
     },
-    switchCompany(context, payload) {
-      return loadingPromise(context, () => {
-        return this.$axios
-          .post(`/companies/switch/`, payload)
-          .then((response) => {
-            context.commit("setActiveCompany", response.data);
-          });
+    fetchAll(context) {
+      if (context.state.initialized) return Promise.resolve();
+      return Promise.all([
+        context.dispatch("fetchCompanies"),
+        context.dispatch("fetchActiveCompany"),
+      ]).then(() => {
+        context.state.initialized = true;
       });
+    },
+    switchCompany(context, company_id) {
+      return this.$axios
+        .post(`/company/switch/`, { company_id })
+        .then((response) => {
+          context.commit("setActiveCompany", response.data);
+        });
     },
   },
 };

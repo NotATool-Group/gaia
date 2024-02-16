@@ -11,15 +11,17 @@
       <v-btn variant="text" @click="$router.push('/login')">Login</v-btn>
     </template>
     <template v-else>
+      <CompanySwitcher />
+      <v-divider vertical class="mx-4" style="height: 50%; margin-top:auto; margin-bottom:auto" color="white"/>
       <v-btn variant="text" @click="$router.push('/profile')">
         <v-skeleton-loader
           :loading="$store.getters['auth/isLoading']"
           color="transparent"
-          width="200"
-          type="text">
+          type="text"
+          width="200">
           <template #default>
             <span>
-              {{ $store.getters["auth/me"].first_name }}
+              {{ $store.getters["auth/me"].first_name[0] }}.
               {{ $store.getters["auth/me"].last_name }}
             </span>
           </template>
@@ -32,10 +34,11 @@
 
 <script>
 import LogoutButton from "@/components/LogoutButton.vue";
+import CompanySwitcher from "@/components/CompanySwitcher.vue";
 
 export default {
   name: "MainNavbar",
-  components: { LogoutButton },
+  components: { CompanySwitcher, LogoutButton },
   computed: {
     authenticated() {
       return this.$store.getters["auth/isAuthenticated"];
