@@ -4,9 +4,12 @@
     <v-btn :loading="loading" :disabled="loading" variant="text">
       {{ activeCompany?.name }}
     </v-btn>
-    <v-btn icon="mdi-swap-vertical"
-           title="Switch Company"
-           variant="text" id="company-menu-activator" density="comfortable"/>
+    <v-btn
+      id="company-menu-activator"
+      icon="mdi-swap-vertical"
+      title="Switch Company"
+      variant="text"
+      density="comfortable" />
     <v-menu
       offset-y
       location="bottom right"
@@ -19,6 +22,18 @@
           :key="company.id"
           @click="switchCompany(company)">
           <v-list-item-title>{{ company.name }}</v-list-item-title>
+        </v-list-item>
+        <v-list-item v-if="companies.length === 0">
+          <v-list-item-title>No companies found</v-list-item-title>
+        </v-list-item>
+        <v-divider class="my-1" />
+        <v-list-item
+          v-if="!loadingData"
+          @click="()=>{}">
+          <div class="d-flex flex-row" style="gap: 8px">
+            <v-icon icon="mdi-plus" color="success" />
+            <v-list-item-title>Create Company</v-list-item-title>
+          </div>
         </v-list-item>
       </v-list>
     </v-menu>
@@ -58,5 +73,3 @@ export default {
   },
 };
 </script>
-
-<style scoped></style>

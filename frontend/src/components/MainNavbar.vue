@@ -12,7 +12,11 @@
     </template>
     <template v-else>
       <CompanySwitcher />
-      <v-divider vertical class="mx-4" style="height: 50%; margin-top:auto; margin-bottom:auto" color="white"/>
+      <v-divider
+        vertical
+        class="mx-4"
+        style="height: 50%; margin-top: auto; margin-bottom: auto"
+        color="white" />
       <v-btn variant="text" @click="$router.push('/profile')">
         <v-skeleton-loader
           :loading="$store.getters['auth/isLoading']"
