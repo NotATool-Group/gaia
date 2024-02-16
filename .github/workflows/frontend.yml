@@ -38,6 +38,11 @@ jobs:
   style:
     name: Style check
     runs-on: ubuntu-latest
+    needs: build
+
+    strategy:
+      matrix:
+        task: [ "format:check", "lint:check" ]
 
     steps:
       - uses: actions/checkout@v4
@@ -54,12 +59,7 @@ jobs:
           cd frontend
           npm ci
 
-      - name: Check frontend code formatting with Prettier
+      - name: Check code style
         run: |
           cd frontend
-          npm run format:check
-
-      - name: Check frontend code linting with ESLint
-        run: |
-          cd frontend
-          npm run lint:check
+          npm run ${{ matrix.task }}
