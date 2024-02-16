@@ -17,15 +17,16 @@ class ActiveCompanyMiddleware:
 
     def __call__(self, request):
         company_id = request.session.get("active_company", None)
-        if company_id:
+
+        if company_id is None and request.user.is_authenticated:
+            request.active_company = request.user.companies.first()
+            request.session["active_company"] = request.active_company.id
+        elif company_id:
             try:
                 request.active_company = Company.objects.get(id=company_id)
             except Company.DoesNotExist:
                 request.active_company = None
         else:
-            if request.user.is_authenticated:
-                request.active_company = request.user.companies.first()
-            else:
-                request.active_company = None
+            request.active_company = None
 
         return self.get_response(request)
