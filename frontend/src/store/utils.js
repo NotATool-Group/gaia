@@ -7,4 +7,4 @@ export const loadingPromise = (context, func) => {
 
 export default {
   loadingPromise,
-}
+};

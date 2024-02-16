@@ -4,12 +4,12 @@
     <v-btn
       :loading="loading"
       :disabled="loading"
-      @click="()=>{}"
-      variant="text">
+      variant="text"
+      @click="() => {}">
       <template #prepend>
         <v-icon size="24" color="success">mdi-plus</v-icon>
       </template>
-      <span style="margin-top:1px;">Create your first company</span>
+      <span style="margin-top: 1px">Create your first company</span>
     </v-btn>
   </div>
   <div v-else>
@@ -39,9 +39,7 @@
           <v-list-item-title>No companies found</v-list-item-title>
         </v-list-item>
         <v-divider class="my-1" />
-        <v-list-item
-          v-if="!loadingData"
-          @click="()=>{}">
+        <v-list-item v-if="!loadingData" @click="() => {}">
           <div class="d-flex flex-row" style="gap: 8px">
             <v-icon icon="mdi-plus" color="success" />
             <v-list-item-title>Create Company</v-list-item-title>
