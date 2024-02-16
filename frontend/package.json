@@ -8,7 +8,9 @@
     "build": "vite build",
     "preview": "vite preview",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore --fix src",
-    "format": "prettier .  --write"
+    "lint:check": "eslint --ext .js,.vue --ignore-path .gitignore src",
+    "format": "prettier .  --write",
+    "format:check": "prettier .  --check"
   },
   "dependencies": {
     "vite-plugin-vuetify": "^2.0.1",

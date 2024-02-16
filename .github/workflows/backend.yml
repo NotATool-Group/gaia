@@ -1,0 +1,78 @@
+name: Backend CI
+
+on:
+  push:
+    branches:
+      - 'feat/*'
+  pull_request:
+    branches:
+      - main
+      - dev
+
+jobs:
+  style:
+    name: Style Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Poetry
+        run: |
+          pipx install poetry
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+          cache: 'poetry'
+        id: setup-python
+
+      - name: Install dependencies
+        run: |
+          poetry install
+
+      - name: Check code formatting with Black
+        run: poetry run black --check .
+  test:
+    name: Django Tests
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:13
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: gaia
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Poetry
+        run: |
+          pipx install poetry
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+          cache: 'poetry'
+        id: setup-python
+
+      - name: Install dependencies
+        run: |
+          poetry install
+
+      - name: Setup .env file
+        run: |
+          echo "${{ secrets.ENV_FILE }}" > .env
+
+      - name: Run migrations
+        run: poetry run python manage.py migrate
+
+      - name: Run Django tests
+        run: poetry run python manage.py test
