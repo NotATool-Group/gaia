@@ -78,7 +78,7 @@ export default {
           if (error.response.status === 401) {
             this.formErrors = ["Invalid email or password"];
           } else {
-            this.formErrors = error.response.data.non_field_errors;
+            this.formErrors = ["An error occurred"];
           }
         })
         .finally(() => {
