@@ -1,4 +1,3 @@
-from django.conf import settings
 from django.db import transaction
 from rest_framework.serializers import ModelSerializer
 
@@ -15,9 +14,6 @@ class UserSerializer(ModelSerializer):
 
     @transaction.atomic
     def create(self, validated_data):
-        user = User.objects.create_user(
-            is_active=settings.CONFIRMATION_EMAIL_ENABLED, is_verified=False, **validated_data
-        )
-        if settings.CONFIRMATION_EMAIL_ENABLED:
-            send_activation_email(user)
+        user = User.objects.create_user(is_active=False, is_verified=False, **validated_data)
+        send_activation_email(user)
         return user

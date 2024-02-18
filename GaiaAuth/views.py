@@ -68,7 +68,9 @@ class AskPasswordResetView(APIView):
     def post(self, request):
         try:
             data = request.data
+            print(data.get("email"))
             user = User.objects.get(email=data.get("email"))
+            print(user)
             send_password_reset_email(user)
         except User.DoesNotExist:
             # fail silently to prevent email enumeration
@@ -80,6 +82,7 @@ class PasswordResetView(APIView):
     def post(self, request, token):
         data = request.data
         password = data.get("password")
+        print(token, password)
         if use_password_reset_token(token, password):
             return Response({"detail": "Password reset successfully"}, status=status.HTTP_200_OK)
         return Response({"detail": "Invalid token"}, status=status.HTTP_400_BAD_REQUEST)
