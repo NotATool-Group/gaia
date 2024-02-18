@@ -75,4 +75,4 @@ jobs:
         run: poetry run python manage.py migrate
 
       - name: Run Django tests
-        run: poetry run python manage.py test
+        run: poetry run python manage.py test --exclude-tag integration

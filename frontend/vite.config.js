@@ -8,7 +8,7 @@ import eslintPlugin from "vite-plugin-eslint";
 // https://vitejs.dev/config/
 export default defineConfig({
   build: {
-    manifest: true,
+    manifest: "manifest.json",
     outDir: resolve("./dist"),
     emptyOutDir: true,
     rollupOptions: {
