@@ -33,7 +33,7 @@ class LoginView(APIView):
             return Response({"detail": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)
 
         login(request, user)
-        return Response(UserSerializer(user).data, status=status.HTTP_200_OK)
+        return Response({"detail": "Logged in successfully"}, status=status.HTTP_200_OK)
 
 
 class LogoutView(APIView):

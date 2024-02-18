@@ -141,14 +141,3 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Custom user model
 AUTH_USER_MODEL = "GaiaAuth.User"
-SESSION_COOKIE_SECURE = ENVIRONMENT != "dev"
-
-# Rest Framework settings
-REST_FRAMEWORK = {
-    "DEFAULT_AUTHENTICATION_CLASSES": [
-        "GaiaAuth.authentication_classes.SessionAuthentication",
-    ],
-    "DEFAULT_RENDERER_CLASSES": [
-        "rest_framework.renderers.JSONRenderer",
-    ],
-}
