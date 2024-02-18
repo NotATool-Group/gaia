@@ -4,6 +4,7 @@ export default (app, options) => {
   const instance = axios.create({
     baseURL: options.baseURL,
   });
+  // set the X-CSRFToken header for all requests taking it from the cookie called csrftoken
   instance.defaults.xsrfCookieName = "csrftoken";
   instance.defaults.xsrfHeaderName = "X-CSRFToken";
   instance.defaults.withCredentials = true;
@@ -11,15 +12,11 @@ export default (app, options) => {
   instance.interceptors.response.use(
     (response) => response,
     (error) => {
-      const store = app.config.globalProperties.$store;
-      if (
-        error.response.status === 401 &&
-        store.getters["auth/isAuthenticated"]
-      ) {
-        window.location.reload();
+      if (error.response.status === 401) {
+        app.config.globalProperties.$router.push({ name: "login" });
       }
       return Promise.reject(error);
-    },
+    }
   );
 
   app.config.globalProperties.$axios = instance;

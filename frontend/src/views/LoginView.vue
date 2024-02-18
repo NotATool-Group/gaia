@@ -8,7 +8,7 @@
         v-model="email"
         :error="formErrors.length > 0"
         :rules="emailRules"
-        class="mt-4"
+        class="pt-4"
         hide-details="auto"
         label="Email"
         required
@@ -35,8 +35,6 @@
   </v-form>
 </template>
 <script>
-import rules from "@/services/rules.js";
-
 export default {
   name: "LoginView",
   data() {
@@ -50,10 +48,16 @@ export default {
   },
   computed: {
     emailRules() {
-      return [rules.required("Email"), rules.email()];
+      return [
+        (v) => !!v || "E-mail is required",
+        (v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
+      ];
     },
     passwordRules() {
-      return [rules.required("Password"), rules.min_length(8, "Password")];
+      return [
+        (v) => !!v || "Password is required",
+        (v) => v.length >= 8 || "Password must be at least 8 characters",
+      ];
     },
   },
   methods: {
