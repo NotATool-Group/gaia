@@ -22,5 +22,5 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("auth/", include("GaiaAuth.urls")),
     # render index if nothing matches
-    re_path(r"^.*$", index),
+    re_path(r"^.*$", index, name="index"),
 ]
