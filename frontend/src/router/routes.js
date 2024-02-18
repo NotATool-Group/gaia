@@ -12,16 +12,6 @@ export default [
     component: () => import("@/views/LoginView.vue"),
   },
   {
-    path: "/password-reset",
-    name: "ask-password-reset",
-    component: () => import("@/views/AskPasswordResetView.vue"),
-  },
-  {
-    path: "/password-reset/:token",
-    name: "password-reset",
-    component: () => import("@/views/PasswordResetView.vue"),
-  },
-  {
     path: "/register",
     name: "register",
     component: () => import("@/views/RegisterView.vue"),

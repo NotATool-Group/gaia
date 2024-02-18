@@ -37,15 +37,6 @@ export default {
         context.commit("setMe", response.data);
       });
     },
-    askPasswordReset(context, payload) {
-      return this.$axios.post("/auth/password-reset/", payload);
-    },
-    resetPassword(context, payload) {
-      return this.$axios.post(
-        `/auth/password-reset/${payload.token}/`,
-        payload,
-      );
-    },
     logout(context) {
       return this.$axios.post("/auth/logout/").then(() => {
         context.commit("setMe", null);
