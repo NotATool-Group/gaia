@@ -2,20 +2,17 @@
 # create a function to check if the user is authenticated
 # create a function to logout the user
 
-from django.conf import settings
 from django.contrib.auth import authenticate, login, logout
-from django.db import transaction
-from django.http import HttpResponseRedirect
-from rest_framework import status
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.response import Response
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework.views import APIView
-
+from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
+from rest_framework import status
 from .serializers import UserSerializer
-from .service import verify_activation_token
 
 
 class RegisterView(APIView):
+    @csrf_exempt
     def post(self, request):
         data = request.data
         serializer = UserSerializer(data=data)
@@ -26,6 +23,7 @@ class RegisterView(APIView):
 
 
 class LoginView(APIView):
+    @csrf_exempt
     def post(self, request):
         data = request.data
         email = data.get("email")
@@ -41,6 +39,7 @@ class LoginView(APIView):
 class LogoutView(APIView):
     permission_classes = [IsAuthenticated]
 
+    @csrf_exempt
     def post(self, request):
         logout(request)
         return Response({"detail": "Logged out successfully"}, status=status.HTTP_200_OK)
@@ -52,12 +51,5 @@ class MeView(APIView):
     def get(self, request):
         user = request.user
         serializer = UserSerializer(user)
+        print(request.session.items())
         return Response(serializer.data, status=status.HTTP_200_OK)
-
-
-class ActivateView(APIView):
-    @transaction.atomic
-    def get(self, request, token):
-        if verify_activation_token(token):
-            return HttpResponseRedirect(settings.BASE_URL)
-        return Response({"detail": "Invalid token"}, status=status.HTTP_400_BAD_REQUEST)

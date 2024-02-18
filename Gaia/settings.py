@@ -139,28 +139,16 @@ DJANGO_VITE_MANIFEST_PATH = BASE_DIR / "frontend" / "dist" / ".vite" / "manifest
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-# Auth settings
+# Custom user model
 AUTH_USER_MODEL = "GaiaAuth.User"
 SESSION_COOKIE_SECURE = ENVIRONMENT != "dev"
-CONFIRMATION_EMAIL_EXPIRY_DAYS = 7
 
 # Rest Framework settings
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "GaiaAuth.authentication_classes.SessionAuthentication",
-        "rest_framework.authentication.BasicAuthentication",
     ],
     "DEFAULT_RENDERER_CLASSES": [
         "rest_framework.renderers.JSONRenderer",
     ],
 }
-
-# Email settings
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = config.EMAIL_HOST
-EMAIL_PORT = config.EMAIL_PORT
-EMAIL_HOST_USER = config.EMAIL_HOST_USER
-EMAIL_HOST_PASSWORD = config.EMAIL_HOST_PASSWORD
-EMAIL_USE_TLS = config.EMAIL_USE_TLS.lower() == "true"
-EMAIL_USE_SSL = config.EMAIL_USE_SSL.lower() == "true"
-DEFAULT_FROM_EMAIL = "Gaia Staff <gaia@natgroup.ch>"
