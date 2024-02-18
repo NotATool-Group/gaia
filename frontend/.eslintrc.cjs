@@ -7,7 +7,7 @@ module.exports = {
   rules: {
     // override/add rules settings here, such as:
     // 'vue/no-unused-vars': 'error'
-    "@stylistic/js/max-len": ["warn", { "code": 80 }],
+    "@stylistic/js/max-len": ["error", { "code": 80 }],
     "vue/block-order": [
       "error",
       {

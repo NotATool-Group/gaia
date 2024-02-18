@@ -43,7 +43,9 @@ export default {
       });
     },
     register(context, payload) {
-      return this.$axios.post("/auth/register/", payload);
+      return this.$axios.post("/auth/register/", payload).then((response) => {
+        context.commit("setMe", response.data);
+      });
     },
   },
 };

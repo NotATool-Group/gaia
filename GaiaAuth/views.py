@@ -59,5 +59,5 @@ class ActivateView(APIView):
     @transaction.atomic
     def get(self, request, token):
         if verify_activation_token(token):
-            return HttpResponseRedirect(f"{settings.BASE_URL}/activate/success/")
+            return HttpResponseRedirect(settings.BASE_URL)
         return Response({"detail": "Invalid token"}, status=status.HTTP_400_BAD_REQUEST)
