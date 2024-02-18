@@ -10,7 +10,6 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.exceptions import ValidationError
 
 from .models import User
 from .serializers import UserSerializer
@@ -34,7 +33,7 @@ class LoginView(APIView):
         password = data.get("password")
         user = authenticate(email=email, password=password)
         if user is None:
-            return Response({"non_field_errors": ["Invalid credentials"]}, status=status.HTTP_401_UNAUTHORIZED)
+            return Response({"detail": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)
 
         login(request, user)
         return Response(UserSerializer(user).data, status=status.HTTP_200_OK)
@@ -62,7 +61,7 @@ class ActivateView(APIView):
     def get(self, request, token):
         if use_activation_token(token):
             return HttpResponseRedirect(f"{settings.BASE_URL}/activate/success/")
-        return Response({"non_field_errors": ["Invalid token"]}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"detail": "Invalid token"}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class AskPasswordResetView(APIView):
@@ -81,12 +80,6 @@ class PasswordResetView(APIView):
     def post(self, request, token):
         data = request.data
         password = data.get("password")
-        try:
-            if use_password_reset_token(token, password):
-                return Response({"detail": "Password reset successfully"}, status=status.HTTP_200_OK)
-            return Response(
-                {"non_field_errors": ["Invalid password reset token: the password was reset already."]},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
-        except ValidationError as e:
-            return Response(e.detail, status=status.HTTP_400_BAD_REQUEST)
+        if use_password_reset_token(token, password):
+            return Response({"detail": "Password reset successfully"}, status=status.HTTP_200_OK)
+        return Response({"detail": "Invalid token"}, status=status.HTTP_400_BAD_REQUEST)
