@@ -1,1 +1,4 @@
-{}
+{
+  "bracketSameLine": true,
+  "printWidth": 80
+}

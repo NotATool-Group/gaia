@@ -48,6 +48,8 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "django_vite",
+    "GaiaCore.apps.GaiacoreConfig",
+    "GaiaAuth.apps.GaiaauthConfig",
 ]
 
 MIDDLEWARE = [
@@ -130,9 +132,37 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 STATICFILES_DIRS = [BASE_DIR / "static", BASE_DIR / "frontend" / "dist"]
 
 DJANGO_VITE_DEV_MODE = ENVIRONMENT == "dev"
-DJANGO_VITE_MANIFEST_PATH = BASE_DIR / "frontend" / "dist" / ".vite" / "manifest.json"
+DJANGO_VITE_MANIFEST_PATH = STATIC_ROOT / "manifest.json"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# Auth settings
+AUTH_USER_MODEL = "GaiaAuth.User"
+SESSION_COOKIE_SECURE = ENVIRONMENT != "dev"
+CONFIRMATION_EMAIL_ENABLED = config.get("CONFIRMATION_EMAIL_ENABLED", "true").lower() != "false"
+CONFIRMATION_EMAIL_EXPIRY_DAYS = 7
+PASSWORD_RESET_EXPIRY_DAYS = 1
+
+# Rest Framework settings
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "GaiaAuth.authentication_classes.SessionAuthentication",
+        "rest_framework.authentication.BasicAuthentication",
+    ],
+    "DEFAULT_RENDERER_CLASSES": [
+        "rest_framework.renderers.JSONRenderer",
+    ],
+}
+
+# Email settings
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = config.EMAIL_HOST
+EMAIL_PORT = config.EMAIL_PORT
+EMAIL_HOST_USER = config.EMAIL_HOST_USER
+EMAIL_HOST_PASSWORD = config.EMAIL_HOST_PASSWORD
+EMAIL_USE_TLS = config.EMAIL_USE_TLS.lower() == "true"
+EMAIL_USE_SSL = config.EMAIL_USE_SSL.lower() == "true"
+DEFAULT_FROM_EMAIL = "Gaia Staff <gaia@natgroup.ch>"
