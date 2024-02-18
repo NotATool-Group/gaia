@@ -26,6 +26,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = config.DJANGO_SECRET
 
+# OPENAI GPT key
+OPENAI_API_KEY = config.OPENAI_API_KEY
+
 # ENVIRONMENT is used to determine if the app is running in development or production
 # DEBUG is not enough since staging and testing environments have DEBUG=False but are not production
 ENVIRONMENT = config.ENVIRONMENT
