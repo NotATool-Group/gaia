@@ -21,7 +21,14 @@ export default defineConfig({
   server: {
     origin: "http://localhost:5173",
   },
-  plugins: [vue(), vuetify({ autoImport: true }), eslintPlugin()],
+  plugins: [
+    vue(),
+    vuetify({
+      autoImport: true,
+      styles: { configFile: "src/styles/settings.scss" },
+    }),
+    eslintPlugin(),
+  ],
   resolve: {
     alias: [
       {

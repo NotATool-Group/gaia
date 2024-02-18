@@ -9,6 +9,6 @@ const app = createApp(App);
 app.use(router);
 app.use(store);
 app.use(vuetify);
-app.use(axios, { baseURL: "http://localhost:8000" });
+app.use(axios, { baseURL: "http://localhost:8000/api" });
 store.$axios = app.config.globalProperties.$axios;
 app.mount("#app");

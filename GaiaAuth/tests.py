@@ -212,10 +212,11 @@ class ActivationEmailServiceTests(TestCase):
         send_activation_email(self.user)
         self.assertEqual(len(mail.outbox), 1)
         self.assertEqual(mail.outbox[0].subject, "Activate your account on Gaia")
-        self.assertIn("http://testserver/auth/activate/", mail.outbox[0].body)
+
         activation = PendingActivation.objects.filter(user=self.user).first()
         self.assertIsNotNone(activation)
-        self.assertIn(activation.token, mail.outbox[0].body)
+        activate_url = reverse("activate", kwargs={"token": activation.token})
+        self.assertIn(activate_url, mail.outbox[0].body)
 
     def test_send_activation_email_disabled(self):
         from GaiaAuth.service import send_activation_email
@@ -274,11 +275,11 @@ class PasswordResetServiceTests(TestCase):
 
         send_password_reset_email(self.user)
         self.assertEqual(len(mail.outbox), 1)
-        self.assertIn("http://testserver/password-reset/", mail.outbox[0].body)
         self.assertFalse(self.user.check_password(self.old_password))
         reset = PasswordReset.objects.filter(user=self.user).first()
         self.assertIsNotNone(reset)
-        self.assertIn(reset.token, mail.outbox[0].body)
+        reset_url = f"http://testserver/password-reset/{reset.token}"
+        self.assertIn(reset_url, mail.outbox[0].body)
 
     def test_use_password_reset_token(self):
         from GaiaAuth.service import use_password_reset_token

@@ -2,6 +2,7 @@ import secrets
 
 from django.conf import settings
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.contrib.auth.models import PermissionsMixin
 from django.db import models
 from django.utils import timezone
 
@@ -29,7 +30,7 @@ class UserManager(BaseUserManager):
 
 
 # create a user model without username field, using email as the unique identifier
-class User(AbstractBaseUser):
+class User(AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField("First name", max_length=30, blank=True)
     last_name = models.CharField("Last name", max_length=30, blank=True)
     email = models.EmailField("Email address", max_length=255, unique=True)
@@ -49,6 +50,8 @@ class User(AbstractBaseUser):
         default=False,
         help_text="Designates whether this user has completed the email verification process to allow login.",
     )
+
+    companies = models.ManyToManyField("GaiaCompany.Company", related_name="users", blank=True)
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["first_name", "last_name"]

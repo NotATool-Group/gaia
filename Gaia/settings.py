@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     "django_vite",
     "GaiaCore.apps.GaiacoreConfig",
     "GaiaAuth.apps.GaiaauthConfig",
+    "GaiaCompany.apps.GaiacompanyConfig",
 ]
 
 MIDDLEWARE = [
@@ -60,6 +61,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "GaiaCompany.middleware.ActiveCompanyMiddleware",
 ]
 
 ROOT_URLCONF = "Gaia.urls"
