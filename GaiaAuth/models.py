@@ -82,15 +82,3 @@ class PendingActivation(models.Model):
 
     def is_expired(self):
         return (timezone.now() - self.created_at).days > settings.CONFIRMATION_EMAIL_EXPIRY_DAYS
-
-
-class PasswordReset(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now_add=True)
-    token = models.CharField(max_length=255, unique=True, default=PendingActivation.generate_token)
-
-    def __str__(self):
-        return f"{self.user.email} - {self.token}"
-
-    def is_expired(self):
-        return (timezone.now() - self.created_at).days > settings.PASSWORD_RESET_EXPIRY_DAYS
