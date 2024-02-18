@@ -7,7 +7,6 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "clean": "rm -rf dist",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore --fix src",
     "lint:check": "eslint --ext .js,.vue --ignore-path .gitignore src",
     "format": "prettier .  --write",

@@ -129,10 +129,10 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
-STATICFILES_DIRS = [BASE_DIR / "static", BASE_DIR / "frontend" / "dist"]
+STATICFILES_DIRS = [BASE_DIR / "static"]
 
 DJANGO_VITE_DEV_MODE = ENVIRONMENT == "dev"
-DJANGO_VITE_MANIFEST_PATH = STATIC_ROOT / "manifest.json"
+DJANGO_VITE_MANIFEST_PATH = BASE_DIR / "frontend" / "dist" / ".vite" / "manifest.json"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
