@@ -12,7 +12,7 @@
     </template>
     <template v-else>
       <v-btn variant="text" @click="$router.push('/profile')">Profile</v-btn>
-      <LogoutButton />
+      <LogoutButton/>
     </template>
   </v-app-bar>
 </template>

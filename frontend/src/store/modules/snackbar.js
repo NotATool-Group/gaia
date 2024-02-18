@@ -31,6 +31,6 @@ export default {
     },
     setVisible(state, visible) {
       state.visible = visible;
-    },
+    }
   },
 };

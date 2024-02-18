@@ -7,7 +7,7 @@ module.exports = {
   rules: {
     // override/add rules settings here, such as:
     // 'vue/no-unused-vars': 'error'
-    "@stylistic/js/max-len": ["warn", { code: 80 }],
+    "@stylistic/js/max-len": ["warn", { "code": 80 }],
     "vue/block-order": [
       "error",
       {
@@ -17,11 +17,11 @@ module.exports = {
     "vue/html-closing-bracket-newline": [
       "warn",
       {
-        singleline: "never",
-        multiline: "never",
-        selfClosingTag: {
-          singleline: "never",
-          multiline: "never",
+        "singleline": "never",
+        "multiline": "never",
+        "selfClosingTag": {
+          "singleline": "never",
+          "multiline": "never",
         },
       },
     ],

@@ -10,6 +10,6 @@ export default createStore({
   actions: {},
   modules: {
     auth,
-    snackbar,
+    snackbar
   },
 });
