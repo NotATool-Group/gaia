@@ -5,7 +5,6 @@ from django.urls import reverse
 from django.utils.html import strip_tags
 
 from .models import User, PendingActivation, PasswordReset
-from urllib.parse import urlparse
 
 
 def send_activation_email(user: User):
@@ -20,7 +19,7 @@ def send_activation_email(user: User):
     activation = PendingActivation.objects.create(user=user)
     token = activation.token
     path = reverse("activate", kwargs={"token": token})
-    url = urlparse(f"{settings.BASE_URL}{path}")
+    url = f"{settings.BASE_URL}{path}"
 
     # send email to the user
     subject = "Activate your account on Gaia"
@@ -63,7 +62,7 @@ def send_password_reset_email(user: User):
     user.set_unusable_password()  # invalidate the current password
     reset = PasswordReset.objects.create(user=user)
     token = reset.token
-    url = urlparse(f"{settings.BASE_URL}/password-reset/{token}")
+    url = f"{settings.BASE_URL}/password-reset/{token}"
 
     # send email to the user
     subject = "Reset your password on Gaia"
