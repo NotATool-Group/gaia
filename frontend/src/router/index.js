@@ -8,8 +8,6 @@ const router = createRouter({
 });
 
 router.beforeEach(async (to) => {
-  if (to.name === "login") return true;
-
   const requiresAuth = to.meta?.requiresAuth ?? false;
   await store.dispatch("auth/checkAuth");
 

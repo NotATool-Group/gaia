@@ -30,8 +30,6 @@ export default {
       }
       return this.$axios.get("/auth/me/").then((response) => {
         context.commit("setMe", response.data);
-      }).catch(() => {
-        context.commit("setMe", null);
       });
     },
   },
